@@ -21,6 +21,7 @@ class Gaps {
   static const v16 = SizedBox(height: Sizes.size16);
   static const v19 = SizedBox(height: Sizes.size19);
   static const v20 = SizedBox(height: Sizes.size20);
+  static const v22 = SizedBox(height: Sizes.size22);
   static const v24 = SizedBox(height: Sizes.size24);
   static const v25 = SizedBox(height: Sizes.size25);
   static const v26 = SizedBox(height: Sizes.size26);
@@ -29,6 +30,7 @@ class Gaps {
   static const v30= SizedBox(height: Sizes.size30);
   static const v32 = SizedBox(height: Sizes.size32);
   static const v34 = SizedBox(height: Sizes.size34);
+  static const v35 = SizedBox(height: Sizes.size35);
   static const v36 = SizedBox(height: Sizes.size36);
   static const v40 = SizedBox(height: Sizes.size40);
   static const v44 = SizedBox(height: Sizes.size44);
@@ -43,14 +45,20 @@ class Gaps {
   static const v64 = SizedBox(height: Sizes.size64);
   static const v68 = SizedBox(height: Sizes.size68);
   static const v72 = SizedBox(height: Sizes.size72);
+  static const v74 = SizedBox(height: Sizes.size74);
   static const v76 = SizedBox(height: Sizes.size76);
   static const v80 = SizedBox(height: Sizes.size80);
   static const v86 = SizedBox(height: Sizes.size86);
+  static const v93 = SizedBox(height: Sizes.size93);
   static const v94 = SizedBox(height: Sizes.size94);
   static const v96 = SizedBox(height: Sizes.size96);
+  static const v98 = SizedBox(height: Sizes.size98);
   static const v100 = SizedBox(height: Sizes.size100);
   static const v145 = SizedBox(height: Sizes.size145);
   static const v150= SizedBox(height: Sizes.size150);
+  static const v188= SizedBox(height: Sizes.size188);
+  static const v196= SizedBox(height: Sizes.size196);
+  static const v198= SizedBox(height: Sizes.size198);
 
   /* Horizontal Gaps */
   static const h1 = SizedBox(width: Sizes.size1);
@@ -80,6 +88,7 @@ class Gaps {
   static const h52 = SizedBox(width: Sizes.size52);
   static const h54 = SizedBox(width: Sizes.size54);
   static const h56 = SizedBox(width: Sizes.size56);
+  static const h58 = SizedBox(width: Sizes.size58);
   static const h60 = SizedBox(width: Sizes.size60);
   static const h64 = SizedBox(width: Sizes.size64);
   static const h72 = SizedBox(width: Sizes.size72);

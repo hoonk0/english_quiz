@@ -1,11 +1,17 @@
 
+import 'package:english_quiz/ui/route/auth/route_auth_find_id.dart';
+import 'package:english_quiz/ui/route/route_main.dart';
 import 'package:flutter/material.dart';
 import '../../const/value/colors.dart';
 import '../../const/value/gaps.dart';
+import '../../const/value/lines.dart';
 import '../../const/value/text_style.dart';
 import '../../utils/utils.dart';
 import '../component/button/blue_button.dart';
+import '../component/dialog/dialog_deny.dart';
 import '../component/textfield_border.dart';
+import 'auth/route_auth_find_pw.dart';
+import 'auth/route_auth_sign_up.dart';
 
 
 class RouteLogin extends StatefulWidget {
@@ -18,6 +24,7 @@ class RouteLogin extends StatefulWidget {
 class _RouteLoginState extends State<RouteLogin> {
   final TextEditingController tecId = TextEditingController();
   final TextEditingController tecPw = TextEditingController();
+  final ValueNotifier<bool> _obscureTextNotifier = ValueNotifier<bool>(true);
   // final ValueNotifier<bool> vnIsCheck = ValueNotifier(false);
   bool isPasswordOverSix = false;
 
@@ -41,50 +48,190 @@ class _RouteLoginState extends State<RouteLogin> {
               padding: const EdgeInsets.symmetric(horizontal: 36.0),
               child: Column(
                 children: [
-                  Gaps.v145,
-
-                  Gaps.v40,
+                  Gaps.v198,
                   Text(
                     'Login',
-                    style: TS.s24w800(colorBlue500),
+                    style: TS.s32w700(colorGray900),
                   ),
-                  Gaps.v54,
+
+                  Gaps.v74,
+
                   TextFieldBorder(
                     controller: tecId,
-                    colorFocused: colorBlue500,
-                    colorBorder: colorGray500,
-                    contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
-                    hintText: '아이디를 입력해주세요',
+                    hintText: '아이디',
                   ),
                   Gaps.v10,
+
                   ValueListenableBuilder(
                     valueListenable: tecPw,
                     builder: (context, isCheck, child) {
-                      return TextFieldBorder(
-                        // tecPw.value = '입력된 값';
-                        controller: tecPw,
-                        obscureText: true,
-                        colorFocused: isPasswordOverSix || tecPw.text.isEmpty ? colorBlue500 : colorRed,
-                        colorBorder: isPasswordOverSix || tecPw.text.isEmpty ? colorGray500 : colorRed,
-                        contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
-                        colorBorderError: isPasswordOverSix ? colorBlue500 : colorRed,
-                        errorText: isPasswordOverSix || tecPw.text.isEmpty ? null : 'ⓘ 비밀번호가 올바르지 않습니다.',
-                        hintText: '비밀번호를 입력해주세요',
-                        onChanged: (value) {
-                          // vnIsCheck.value = !vnIsCheck.value;
-                          // debugPrint("onChanged ${vnIsCheck.value}");
-                          isPasswordOverSix = Utils.regExpPw.hasMatch(value);
+                      return ValueListenableBuilder<bool>(
+                        valueListenable: _obscureTextNotifier,
+                        builder: (context, _obscureText, child) {
+                          return TextFieldBorder(
+                            controller: tecPw,
+                            obscureText: _obscureText,
+                           // colorBorder: isPasswordOverSix || tecPw.text.isEmpty ? colorGray500 : colorRed,
+                            contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
+                            hintText: '비밀번호',
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                color: colorGray400,
+                                _obscureText ? Icons.visibility_off : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                _obscureTextNotifier.value = !_obscureTextNotifier.value;
+                              },
+                            ),
+                            onChanged: (value) {
+                              setState(() {
+                                isPasswordOverSix = Utils.regExpPw.hasMatch(value);
+                              });
+                            },
+                          );
                         },
                       );
+
                     },
                   ),
-                  Gaps.v34,
+                  
+                  Gaps.v35,
                   BlueButton(
                     title: '로그인',
                     onTap: () {
-                      //LoginCheck(context);
+                      LoginCheck(context);
                     },
                   ),
+                  Gaps.v16,
+
+                  ///회원가입, 아이디, 비밀번호 찾기
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      /// 회원가입
+                      _WidgetText(
+                        title: '회원가입',
+                        onTap: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const RouteAuthSignUp(),
+                            ),
+                          );
+                        },
+                      ),
+                      const Text(
+                        '|',
+                        style: TS.s13w400(colorGray400),
+                      ),
+
+                      /// 아이디 찾기
+                      _WidgetText(
+                        title: '아이디 찾기',
+                        onTap: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const RouteAuthFindId(),
+                            ),
+                          );
+                        },
+                      ),
+                      const Text(
+                        '|',
+                        style: TS.s13w400(colorGray400),
+                      ),
+
+                      /// 비밀번호 찾기
+                      _WidgetText(
+                        title: '비밀번호 찾기',
+                        onTap: () {
+                          FocusManager.instance.primaryFocus?.unfocus();
+
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const RouteAuthFindPw(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+
+                  Gaps.v98,
+
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          child: Expanded(
+                            child: Divider(
+                              color: colorGray400, // colorGray400
+                              thickness: 1,
+                            ),
+                          ),
+                        ),
+                        Gaps.h20,
+                        Text(
+                          '또는',
+                          style: TS.s13w500(colorGray600)
+                        ),
+                        Gaps.h20,
+                        Container(
+                          child: Expanded(
+                            child: Divider(
+                              color: colorGray400, // colorGray400
+                              thickness: 1,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Gaps.v30,
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    SizedBox(
+                    width: 56,
+                    height: 56,
+                    child: Image.asset(
+                      'assets/images/google.png',
+                      fit: BoxFit.fitWidth,
+                    ),
+                  ),
+
+                      Gaps.h20,
+
+                      SizedBox(
+                        width: 56,
+                        height: 56,
+                        child: Image.asset(
+                          'assets/images/kakao.png',
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+
+                      Gaps.h20,
+
+                      SizedBox(
+                        width: 56,
+                        height: 56,
+                        child: Image.asset(
+                          'assets/images/apple.png',
+                          fit: BoxFit.fitWidth,
+                        ),
+                      )
+                    ],
+                  ),
+
+                  Gaps.v93,
 
                 ],
               ),
@@ -95,7 +242,7 @@ class _RouteLoginState extends State<RouteLogin> {
     );
   }
 
-/*  void LoginCheck(BuildContext context) {
+void LoginCheck(BuildContext context) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (tecId.text.isEmpty) {
@@ -131,5 +278,33 @@ class _RouteLoginState extends State<RouteLogin> {
       context,
       MaterialPageRoute(builder: (context) => RouteMain()),
     );
-  }*/
+  }
+}
+
+class _WidgetText extends StatelessWidget {
+  final String title;
+  final void Function()? onTap;
+
+  const _WidgetText({
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          color: Colors.transparent,
+          child: Text(
+            title,
+            style: const TS.s13w400(colorGray600),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
 }

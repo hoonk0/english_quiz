@@ -117,6 +117,9 @@ class TS extends TextStyle {
   /* size13, w500 */
   const TS.s13w500(Color color) : super(color: color, fontSize: Sizes.size13, fontWeight: FontWeight.w500);
 
+  /* size13, w400 */
+  const TS.s13w400(Color color) : super(color: color, fontSize: Sizes.size13, fontWeight: FontWeight.w400);
+
   /* size12, w600 */
   const TS.s12w600(Color color) : super(color: color, fontSize: Sizes.size12, fontWeight: FontWeight.w600);
 
