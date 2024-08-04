@@ -45,7 +45,7 @@ class _RouteLoginState extends State<RouteLogin> {
 
                   Gaps.v40,
                   Text(
-                    '간편한 통학 버스 시스템',
+                    'Login',
                     style: TS.s24w800(colorBlue500),
                   ),
                   Gaps.v54,
