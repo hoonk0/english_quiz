@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import '../../const/value/gaps.dart';
 import '../../const/value/text_style.dart';
 
-class CustomImageContainer extends StatelessWidget {
+class CustomImageContainerRow extends StatelessWidget {
   final String title;
   final String writer;
   final Color seriesColor;
 
-  const CustomImageContainer({
+  const CustomImageContainerRow({
     required this.title,
     required this.writer,
     this.seriesColor = colorPurple500,

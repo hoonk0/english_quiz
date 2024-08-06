@@ -1,4 +1,4 @@
-import 'package:english_quiz/ui/component/custom_image_container.dart';
+import 'package:english_quiz/ui/component/custom_image_container_column.dart';
 import 'package:flutter/material.dart';
 
 import '../../../const/value/colors.dart';
@@ -79,7 +79,7 @@ class _BookSearchState extends State<BookSearch> {
                 ),
                 Gaps.v20,
 
-                CustomImageContainer(title: '호모 사피엔스', writer: 'joseph')
+                CustomImageContainerColumn(title: '호모 사피엔스', writer: 'joseph')
               ],
             ),
           ),
