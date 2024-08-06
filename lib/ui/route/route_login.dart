@@ -129,7 +129,7 @@ class _RouteLoginState extends State<RouteLogin> {
 
                       /// 아이디 찾기
                       _WidgetText(
-                        title: 'Forget ID',
+                        title: 'Find ID',
                         onTap: () {
                           FocusManager.instance.primaryFocus?.unfocus();
 
@@ -147,7 +147,7 @@ class _RouteLoginState extends State<RouteLogin> {
 
                       /// 비밀번호 찾기
                       _WidgetText(
-                        title: 'Forget PW',
+                        title: 'Find PW',
                         onTap: () {
                           FocusManager.instance.primaryFocus?.unfocus();
 
