@@ -11,7 +11,6 @@ import '../../../../const/value/text_style.dart';
 import '../../../component/custom_appbar.dart';
 import '../../../component/dialog/dialog_confirm.dart';
 
-
 class RouteAuthFindPwDetail extends StatefulWidget {
   const RouteAuthFindPwDetail({super.key});
 
@@ -49,7 +48,7 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
   void _updateSignUpButtonState() {
     vnSignUpButtonEnabled.value =
         tecPw.text.isNotEmpty &&
-        tecPwConfirm.text.isNotEmpty;
+            tecPwConfirm.text.isNotEmpty;
   }
 
   @override
@@ -74,13 +73,13 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       /// Appbar
-                      const CustomAppbar(appTitle: '비밀번호 찾기',),
+                      const CustomAppbar(appTitle: 'Find Password'),
 
                       Gaps.v36,
 
-                      ///비밀번호
+                      /// New Password
                       Text(
-                        '새로운 비밀번호',
+                        'New Password',
                         style: TS.s14w500(colorGray900),
                       ),
                       Gaps.v10,
@@ -93,9 +92,8 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
                               return TextFieldBorder(
                                 controller: tecPw,
                                 obscureText: _obscurePw,
-                                // colorBorder: isPasswordOverSix || tecPw.text.isEmpty ? colorGray500 : colorRed,
                                 contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
-                                hintText: '비밀번호 입력',
+                                hintText: 'Enter password',
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     _obscurePw ? Icons.visibility_off : Icons.visibility,
@@ -120,14 +118,13 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
                               return TextFieldBorder(
                                 controller: tecPwConfirm,
                                 obscureText: _obscurePwConfirm,
-                                // colorBorder: isPasswordOverSix || tecPw.text.isEmpty ? colorGray500 : colorRed,
                                 contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
-                                hintText: '비밀번호 재입력',
+                                hintText: 'Re-enter password',
                                 errorText: _isPassConfirmValid(),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    color: colorGray400,
                                     _obscurePwConfirm ? Icons.visibility_off : Icons.visibility,
+                                    color: colorGray400,
                                   ),
                                   onPressed: () {
                                     _obscurePwConfirmNotifier.value = !_obscurePwConfirmNotifier.value;
@@ -148,7 +145,7 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
                 valueListenable: vnSignUpButtonEnabled,
                 builder: (context, vnSignUpButtonEnabled, child) {
                   return GrayButton(
-                    title: '변경 완료',
+                    title: 'Complete Change',
                     titleColorBg: vnSignUpButtonEnabled ? colorWhite : colorGray500,
                     colorBg: vnSignUpButtonEnabled ? colorPurple500 : colorPoint800,
                     onTap: vnSignUpButtonEnabled ? _findPw : null,
@@ -163,37 +160,34 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
     );
   }
 
-
-
-  /// 비밀번호 검사
+  /// Validate Password
   bool _isValidPassword() {
     RegExp regex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#\$&*~])[A-Za-z\d!@#\$&*~]{8,15}$');
     return regex.hasMatch(tecPw.text);
   }
 
-  ///비밀번호 확인 검사
+  /// Validate Password Confirmation
   String? _isPassConfirmValid() {
     if (tecPwConfirm.text.isEmpty) return null;
 
     if (tecPw.text != tecPwConfirm.text) {
       isPasswordMatch = false;
-      return '비밀번호가 일치하지 않습니다.';
+      return 'Passwords do not match.';
     } else {
       isPasswordMatch = true;
     }
     return null;
   }
 
-  /// 회원가입
+  /// Find Password
   void _findPw() {
     FocusManager.instance.primaryFocus?.unfocus();
-
 
     if (tecPw.text.isEmpty) {
       showDialog(
         context: context,
         builder: (context) => const DialogConfirm(
-          desc: '비밀번호를 입력해주세요',
+          desc: 'Please enter your password.',
         ),
       );
       return;
@@ -203,7 +197,7 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
       showDialog(
         context: context,
         builder: (context) => const DialogConfirm(
-          desc: '유효한 비밀번호가 아닙니다',
+          desc: 'Invalid password.',
         ),
       );
       return;
@@ -213,7 +207,7 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
       showDialog(
         context: context,
         builder: (context) => const DialogConfirm(
-          desc: '비밀번호 재입력을 입력해주세요',
+          desc: 'Please re-enter your password.',
         ),
       );
       return;
@@ -223,7 +217,7 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
       showDialog(
         context: context,
         builder: (context) => const DialogConfirm(
-          desc: '비밀번호가 일치하지 않습니다',
+          desc: 'Passwords do not match.',
         ),
       );
       return;
@@ -239,9 +233,8 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
       },
     );
 
-    //showBottomDialog(context, '비밀번호가 변경되었습니다.');
+    //showBottomDialog(context, 'Password has been changed.');
   }
-
 
   void showBottomDialog(BuildContext context, String message) {
     showGeneralDialog(
@@ -259,17 +252,14 @@ class _RouteAuthFindPwDetailState extends State<RouteAuthFindPwDetail> {
               color: colorBlack,
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
-              child: Text(
-                '비밀번호가 변경되었습니다.',
-                style: TS.s14w500(colorWhite),
-                textAlign: TextAlign.center,
-              ),
+            child: Text(
+              'Password has been changed.',
+              style: TS.s14w500(colorWhite),
+              textAlign: TextAlign.center,
             ),
-
+          ),
         );
       },
-
     );
   }
-
 }

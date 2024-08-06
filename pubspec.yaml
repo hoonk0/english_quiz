@@ -67,11 +67,16 @@ flutter:
     - assets/icons/home.png
     - assets/icons/video.png
     - assets/icons/person.png
+    - assets/icons/search.png
+    - assets/icons/downarrow.png
+    - assets/icons/rightarrow.png
+    - assets/icons/delete.png
     - assets/images/splash.png
     - assets/images/apple.png
     - assets/images/kakao.png
     - assets/images/google.png
     - assets/images/welcome.png
+    - assets/images/image0.png
 
 
 

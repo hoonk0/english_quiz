@@ -26,12 +26,15 @@ class CustomAppbar extends StatelessWidget {
               height: 24,
               color: Colors.transparent,
               child: GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: Icon(
-                  Icons.keyboard_arrow_left,
-                  color: Colors.black, // 아이콘 색상을 설정합니다 (원하는 색상으로 변경 가능)
+                child: Image.asset(
+                  'assets/icons/rightarrow.png',
+                  width: 24, // 이미지 너비
+                  height: 24, // 이미지 높이
+                  fit: BoxFit.cover,
+                  color: colorBlack, // 이미지 색상
                 ),
               ),
             ),

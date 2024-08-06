@@ -32,7 +32,8 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
   final ValueNotifier<bool> vnSignUpButtonEnabled = ValueNotifier(false);
 
   final ValueNotifier<bool> _obscurePwNotifier = ValueNotifier<bool>(true);
-  final ValueNotifier<bool> _obscurePwConfirmNotifier = ValueNotifier<bool>(true);
+  final ValueNotifier<bool> _obscurePwConfirmNotifier = ValueNotifier<bool>(
+      true);
 
   bool isPasswordMatch = false;
 
@@ -104,14 +105,15 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+
                       /// Appbar
-                      const CustomAppbar(appTitle: '회원 가입',),
+                      const CustomAppbar(appTitle: 'Sign up',),
 
                       Gaps.v36,
 
                       /// 이메일
                       Text(
-                        '이메일',
+                        'Email',
                         style: TS.s14w500(colorGray900),
                       ),
                       Gaps.v10,
@@ -121,7 +123,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                             flex: 3,
                             child: TextFieldBorder(
                               controller: tecEmail,
-                              hintText: '이메일 주소 입력',
+                              hintText: 'Enter Email',
                             ),
                           ),
                           Gaps.h8,
@@ -130,14 +132,17 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                               valueListenable: vnEmailCheck,
                               builder: (context, vnEmailCheck, child) {
                                 return PurpleButton(
-                                  title: vnEmailCheck ? '재인증' : '인증요청',
-                                  colorBg: vnEmailCheck ? colorPurple500 : colorPurple100,
+                                  title: vnEmailCheck ? 'Resend' : 'send',
+                                  colorBg: vnEmailCheck
+                                      ? colorPurple500
+                                      : colorPurple100,
                                   onTap: vnEmailCheck
                                       ? () {
                                     showDialog(
                                       context: context,
-                                      builder: (context) => const DialogConfirm(
-                                        desc: '발송이 완료되었습니다.',
+                                      builder: (context) =>
+                                      const DialogConfirm(
+                                        desc: 'Sent Successfully',
                                       ),
                                     );
                                   }
@@ -155,7 +160,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                             flex: 3,
                             child: TextFieldBorder(
                               controller: tecEmailConfirm,
-                              hintText: '인증번호 입력',
+                              hintText: 'Enter Verification Code',
                             ),
                           ),
                           Gaps.h8,
@@ -164,14 +169,17 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                               valueListenable: vnEmailConfirmCheck,
                               builder: (context, vnEmailConfirmCheck, child) {
                                 return PurpleButton(
-                                  title: '확인 ',
-                                  colorBg: vnEmailConfirmCheck ? colorPurple500 : colorPurple100,
+                                  title: 'Confirm',
+                                  colorBg: vnEmailConfirmCheck
+                                      ? colorPurple500
+                                      : colorPurple100,
                                   onTap: vnEmailConfirmCheck
                                       ? () {
                                     showDialog(
                                       context: context,
-                                      builder: (context) => const DialogConfirm(
-                                        desc: '확인 되었습니다.',
+                                      builder: (context) =>
+                                      const DialogConfirm(
+                                        desc: 'Confirmed',
                                       ),
                                     );
                                   }
@@ -187,7 +195,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
 
                       ///닉네임
                       Text(
-                        '닉네임',
+                        'Nickname',
                         style: TS.s14w500(colorGray900),
                       ),
                       Gaps.v10,
@@ -197,7 +205,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                             flex: 3,
                             child: TextFieldBorder(
                               controller: tecNickName,
-                              hintText: '닉네임 입력',
+                              hintText: 'Enter Nickname',
                             ),
                           ),
                           Gaps.h8,
@@ -206,14 +214,17 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                               valueListenable: vnNickNameCheck,
                               builder: (context, vnNickNameCheck, child) {
                                 return PurpleButton(
-                                  title: '중복확인',
-                                  colorBg: vnNickNameCheck ? colorPurple500 : colorPurple100,
+                                  title: 'Check',
+                                  colorBg: vnNickNameCheck
+                                      ? colorPurple500
+                                      : colorPurple100,
                                   onTap: vnNickNameCheck
                                       ? () {
                                     showDialog(
                                       context: context,
-                                      builder: (context) => const DialogConfirm(
-                                        desc: '사용 가능합니다.',
+                                      builder: (context) =>
+                                      const DialogConfirm(
+                                        desc: 'Available',
                                       ),
                                     );
                                   }
@@ -229,7 +240,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
 
                       ///비밀번호
                       Text(
-                        '비밀번호',
+                        'Password',
                         style: TS.s14w500(colorGray900),
                       ),
                       Gaps.v10,
@@ -243,14 +254,17 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                                 controller: tecPw,
                                 obscureText: _obscurePw,
                                 // colorBorder: isPasswordOverSix || tecPw.text.isEmpty ? colorGray500 : colorRed,
-                                contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
-                                hintText: '비밀번호',
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 17.0, horizontal: 16.0),
+                                hintText: 'Enter Password',
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    _obscurePw ? Icons.visibility_off : Icons.visibility,
+                                    _obscurePw ? Icons.visibility_off : Icons
+                                        .visibility,
                                   ),
                                   onPressed: () {
-                                    _obscurePwNotifier.value = !_obscurePwNotifier.value;
+                                    _obscurePwNotifier.value =
+                                    !_obscurePwNotifier.value;
                                   },
                                 ),
                               );
@@ -269,15 +283,19 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                                 controller: tecPwConfirm,
                                 obscureText: _obscurePwConfirm,
                                 // colorBorder: isPasswordOverSix || tecPw.text.isEmpty ? colorGray500 : colorRed,
-                                contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
-                                hintText: '비밀번호 재입력',
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 17.0, horizontal: 16.0),
+                                hintText: 'Re-enter Password',
                                 errorText: _isPassConfirmValid(),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    _obscurePwConfirm ? Icons.visibility_off : Icons.visibility,
+                                    _obscurePwConfirm
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
                                   ),
                                   onPressed: () {
-                                    _obscurePwConfirmNotifier.value = !_obscurePwConfirmNotifier.value;
+                                    _obscurePwConfirmNotifier.value =
+                                    !_obscurePwConfirmNotifier.value;
                                   },
                                 ),
                               );
@@ -295,9 +313,13 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                 valueListenable: vnSignUpButtonEnabled,
                 builder: (context, vnSignUpButtonEnabled, child) {
                   return GrayButton(
-                    title: '가입완료',
-                    titleColorBg: vnSignUpButtonEnabled ? colorWhite : colorGray500,
-                    colorBg: vnSignUpButtonEnabled ? colorPurple500 : colorPoint800,
+                    title: 'Done',
+                    titleColorBg: vnSignUpButtonEnabled
+                        ? colorWhite
+                        : colorGray500,
+                    colorBg: vnSignUpButtonEnabled
+                        ? colorPurple500
+                        : colorPoint800,
                     onTap: vnSignUpButtonEnabled ? _signUp : null,
                   );
                 },
@@ -311,10 +333,10 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
   }
 
 
-
   /// 비밀번호 검사
   bool _isValidPassword() {
-    RegExp regex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#\$&*~])[A-Za-z\d!@#\$&*~]{8,15}$');
+    RegExp regex = RegExp(
+        r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#\$&*~])[A-Za-z\d!@#\$&*~]{8,15}$');
     return regex.hasMatch(tecPw.text);
   }
 
@@ -324,34 +346,37 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
 
     if (tecPw.text != tecPwConfirm.text) {
       isPasswordMatch = false;
-      return '비밀번호가 일치하지 않습니다.';
+      return 'Passwords do not match.';
     } else {
       isPasswordMatch = true;
     }
     return null;
   }
 
-  /// 회원가입
+  /// Sign Up
   void _signUp() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (tecEmail.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: '아이디를 입력해주세요',
+        builder: (context) =>
+        const DialogConfirm(
+          desc: 'Please enter your email.',
         ),
       );
       return;
     }
 
-    final regExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    final regExp = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
     if (!regExp.hasMatch(tecEmail.text)) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: '올바른 이메일 형식이 아닙니다',
+        builder: (context) =>
+        const DialogConfirm(
+          desc: 'Invalid email format.',
         ),
       );
       return;
@@ -360,30 +385,31 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (tecEmailConfirm.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: '인증번호를 입력해주세요',
+        builder: (context) =>
+        const DialogConfirm(
+          desc: 'Please enter the verification code.',
         ),
       );
       return;
     }
-
 
     if (tecNickName.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: '닉네임을 입력해주세요',
+        builder: (context) =>
+        const DialogConfirm(
+          desc: 'Please enter a nickname.',
         ),
       );
       return;
     }
 
-
     if (tecPw.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: '비밀번호를 입력해주세요',
+        builder: (context) =>
+        const DialogConfirm(
+          desc: 'Please enter your password.',
         ),
       );
       return;
@@ -392,8 +418,9 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (!_isValidPassword()) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: '유효한 비밀번호가 아닙니다',
+        builder: (context) =>
+        const DialogConfirm(
+          desc: 'Invalid password.',
         ),
       );
       return;
@@ -402,8 +429,9 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (tecPwConfirm.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: '비밀번호 재입력을 입력해주세요',
+        builder: (context) =>
+        const DialogConfirm(
+          desc: 'Please confirm your password.',
         ),
       );
       return;
@@ -412,8 +440,9 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (!isPasswordMatch) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: '비밀번호가 일치하지 않습니다',
+        builder: (context) =>
+        const DialogConfirm(
+          desc: 'Passwords do not match.',
         ),
       );
       return;
@@ -421,16 +450,17 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
 
     showDialog(
       context: context,
-      builder: (context) => DialogConfirm(
-        desc: '회원가입이 완료되었습니다',
-        onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const RouteAuthSignUpWelcome(),
-            ),
-          );
-        },
-      ),
+      builder: (context) =>
+          DialogConfirm(
+            desc: 'Registration complete.',
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const RouteAuthSignUpWelcome(),
+                ),
+              );
+            },
+          ),
     );
   }
 }

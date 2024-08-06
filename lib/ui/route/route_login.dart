@@ -58,7 +58,7 @@ class _RouteLoginState extends State<RouteLogin> {
 
                   TextFieldBorder(
                     controller: tecId,
-                    hintText: '아이디',
+                    hintText: 'ID',
                   ),
                   Gaps.v10,
 
@@ -73,7 +73,7 @@ class _RouteLoginState extends State<RouteLogin> {
                             obscureText: _obscureText,
                            // colorBorder: isPasswordOverSix || tecPw.text.isEmpty ? colorGray500 : colorRed,
                             contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
-                            hintText: '비밀번호',
+                            hintText: 'Password',
                             suffixIcon: IconButton(
                               icon: Icon(
                                 color: colorGray400,
@@ -97,7 +97,7 @@ class _RouteLoginState extends State<RouteLogin> {
                   
                   Gaps.v35,
                   BlueButton(
-                    title: '로그인',
+                    title: 'Sign in',
                     onTap: () {
                       LoginCheck(context);
                     },
@@ -111,7 +111,7 @@ class _RouteLoginState extends State<RouteLogin> {
                     children: [
                       /// 회원가입
                       _WidgetText(
-                        title: '회원가입',
+                        title: 'Sign up',
                         onTap: () {
                           FocusManager.instance.primaryFocus?.unfocus();
 
@@ -129,7 +129,7 @@ class _RouteLoginState extends State<RouteLogin> {
 
                       /// 아이디 찾기
                       _WidgetText(
-                        title: '아이디 찾기',
+                        title: 'Forget ID',
                         onTap: () {
                           FocusManager.instance.primaryFocus?.unfocus();
 
@@ -147,7 +147,7 @@ class _RouteLoginState extends State<RouteLogin> {
 
                       /// 비밀번호 찾기
                       _WidgetText(
-                        title: '비밀번호 찾기',
+                        title: 'Forget PW',
                         onTap: () {
                           FocusManager.instance.primaryFocus?.unfocus();
 
@@ -177,7 +177,7 @@ class _RouteLoginState extends State<RouteLogin> {
                         ),
                         Gaps.h20,
                         Text(
-                          '또는',
+                          'or',
                           style: TS.s13w500(colorGray600)
                         ),
                         Gaps.h20,

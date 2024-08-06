@@ -1,8 +1,10 @@
 
+import 'package:english_quiz/tab/0_tab_book/tab_book_introduction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../const/value/colors.dart';
 import '../../const/value/gaps.dart';
+import '../../const/value/text_style.dart';
 
 class RouteMain extends StatefulWidget {
   const RouteMain({super.key});
@@ -20,13 +22,11 @@ class _RouteMainState extends State<RouteMain> {
       valueListenable: vnTabIndex,
       builder: (context, tabIndex, child) => Scaffold(
         appBar: AppBar(
+          backgroundColor: colorWhite,
           automaticallyImplyLeading: false,
-          title: tabIndex == 0
-              ? Text('홈')
-              : tabIndex == 1
-              ? Text('마케팅')
-              : Text('내 정보'),
-          backgroundColor: tabIndex == 2 ? colorBlue500 : colorWhite, // 내 정보일 때 배경 빨간색
+          title: Text('Chapter Book Quiz',
+          style: TS.s20w700(colorPurple900),)
+
         ),
 
         backgroundColor: colorWhite,
@@ -35,7 +35,7 @@ class _RouteMainState extends State<RouteMain> {
             itemCount: 3,
             itemBuilder: (context, index) {
               if (tabIndex == 0) {
-                //return TabHome();
+                return TabBookIntroduction();
               }
               if (tabIndex == 1) {
                // return Tab1Marketing();
@@ -72,17 +72,17 @@ class _RouteMainState extends State<RouteMain> {
                         width: 28, // 이미지 너비 (옵션)
                         height: 28, // 이미지 높이 (옵션)
                         fit: BoxFit.cover,
-                        color: vnTabIndex.value == index ? colorBlue500 : colorGray900, // 이미지 맞춤 방식 (옵션)
+                        color: vnTabIndex.value == index ? colorPurple500 : colorPoint700, // 이미지 맞춤 방식 (옵션)
                       ),
                       Gaps.v5,
                       Text(
                         index == 0
-                            ? '홈'
+                            ? 'Book'
                             : index == 1
-                                ? '마케팅'
-                                : '사용자 정보',
+                                ? 'Study'
+                                : 'Profil',
                         style: TextStyle(
-                          color: vnTabIndex.value == index ? Color(0xff0072d6) : Color(0xff000000),
+                          color: vnTabIndex.value == index ? colorPurple500 : colorPoint700,
                           fontWeight: FontWeight.w400,
                           fontSize: 11, // 글씨 크기 조정
                         ),

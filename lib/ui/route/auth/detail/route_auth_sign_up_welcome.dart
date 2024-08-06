@@ -29,14 +29,14 @@ class RouteAuthSignUpWelcome extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              '회원가입이 완료되었습니다!',
+              'Registration Complete!',
               style: TS.s20w700(colorGray900),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: PurpleButton(
-                title: '시작하기',
+                title: 'Start',
                 colorBg: colorPurple500,
                 onTap: () {
                   Navigator.of(context).push(

@@ -12,8 +12,6 @@ import '../../../const/value/gaps.dart';
 import '../../../const/value/text_style.dart';
 import '../../component/custom_appbar.dart';
 
-
-
 class RouteAuthFindPw extends StatefulWidget {
   const RouteAuthFindPw({super.key});
 
@@ -28,7 +26,6 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
   final ValueNotifier<bool> vnEmailCheck = ValueNotifier(false);
   final ValueNotifier<bool> vnEmailConfirmCheck = ValueNotifier(false);
   final ValueNotifier<bool> vnFindButtonEnabled = ValueNotifier(false);
-
 
   bool isPasswordMatch = false;
 
@@ -54,7 +51,7 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
   void _updateFindButtonState() {
     vnFindButtonEnabled.value =
         tecEmail.text.isNotEmpty &&
-        tecEmailConfirm.text.isNotEmpty;
+            tecEmailConfirm.text.isNotEmpty;
   }
 
   @override
@@ -79,13 +76,13 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       /// Appbar
-                      const CustomAppbar(appTitle: '비밀번호  찾기',),
+                      const CustomAppbar(appTitle: 'Find Password'),
 
                       Gaps.v36,
 
-                      /// 이메일
+                      /// Email
                       Text(
-                        '이메일',
+                        'Email',
                         style: TS.s14w500(colorGray900),
                       ),
                       Gaps.v10,
@@ -95,7 +92,7 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
                             flex: 3,
                             child: TextFieldBorder(
                               controller: tecEmail,
-                              hintText: '이메일 주소 입력',
+                              hintText: 'Enter email address',
                             ),
                           ),
                           Gaps.h8,
@@ -104,14 +101,14 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
                               valueListenable: vnEmailCheck,
                               builder: (context, vnEmailCheck, child) {
                                 return PurpleButton(
-                                  title: vnEmailCheck ? '재인증' : '인증요청',
+                                  title: vnEmailCheck ? 'Resend' : 'Request',
                                   colorBg: vnEmailCheck ? colorPurple500 : colorPurple100,
                                   onTap: vnEmailCheck
                                       ? () {
                                     showDialog(
                                       context: context,
                                       builder: (context) => const DialogConfirm(
-                                        desc: '발송이 완료되었습니다.',
+                                        desc: 'Request has been sent.',
                                       ),
                                     );
                                   }
@@ -129,7 +126,7 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
                             flex: 3,
                             child: TextFieldBorder(
                               controller: tecEmailConfirm,
-                              hintText: '인증번호 입력',
+                              hintText: 'Enter verification code',
                             ),
                           ),
                           Gaps.h8,
@@ -138,14 +135,14 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
                               valueListenable: vnEmailConfirmCheck,
                               builder: (context, vnEmailConfirmCheck, child) {
                                 return PurpleButton(
-                                  title: '확인 ',
+                                  title: 'Confirm',
                                   colorBg: vnEmailConfirmCheck ? colorPurple500 : colorPurple100,
                                   onTap: vnEmailConfirmCheck
                                       ? () {
                                     showDialog(
                                       context: context,
                                       builder: (context) => const DialogConfirm(
-                                        desc: '확인 되었습니다.',
+                                        desc: 'Verified.',
                                       ),
                                     );
                                   }
@@ -168,7 +165,7 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
                 valueListenable: vnFindButtonEnabled,
                 builder: (context, vnFindButtonEnabled, child) {
                   return GrayButton(
-                    title: '비밀번호 찾기',
+                    title: 'Find Password',
                     titleColorBg: vnFindButtonEnabled ? colorWhite : colorGray500,
                     colorBg: vnFindButtonEnabled ? colorPurple500 : colorPoint800,
                     onTap: vnFindButtonEnabled ? _Find : null,
@@ -183,8 +180,7 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
     );
   }
 
-
-  /// 아이디 찾기
+  /// Find Password
   void _Find() {
     FocusManager.instance.primaryFocus?.unfocus();
 
@@ -192,7 +188,7 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
       showDialog(
         context: context,
         builder: (context) => const DialogConfirm(
-          desc: '아이디를 입력해주세요',
+          desc: 'Please enter your email.',
         ),
       );
       return;
@@ -204,7 +200,7 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
       showDialog(
         context: context,
         builder: (context) => const DialogConfirm(
-          desc: '올바른 이메일 형식이 아닙니다',
+          desc: 'Invalid email format.',
         ),
       );
       return;
@@ -214,14 +210,13 @@ class _RouteAuthFindPwState extends State<RouteAuthFindPw> {
       showDialog(
         context: context,
         builder: (context) => const DialogConfirm(
-          desc: '인증번호를 입력해주세요',
+          desc: 'Please enter the verification code.',
         ),
       );
       return;
     }
 
     Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const RouteAuthFindPwDetail()));
-
+        builder: (context) => const RouteAuthFindPwDetail()));
   }
 }

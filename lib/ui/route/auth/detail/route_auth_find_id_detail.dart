@@ -24,14 +24,15 @@ class RouteAuthFindIdDetail extends StatelessWidget {
             Gaps.v188,
 
             Text(
-              '홍길동님의 아이디는\nasd123**@naver.com입니다.',
+              'Your ID is\nasd123**@naver.com.',
               style: TS.s20w600(colorGray900),
+              textAlign: TextAlign.center,
             ),
 
             Gaps.v50,
 
             PurpleButton(
-                title: '로그인',
+                title: 'Login',
                 colorBg: colorPurple500,
                 onTap: () {
                   Navigator.of(contextMain!).pushAndRemoveUntil(
@@ -41,11 +42,11 @@ class RouteAuthFindIdDetail extends StatelessWidget {
                         (route) => false,
                   );
                 }
-                ),
+            ),
             Gaps.v16,
 
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Navigator.of(contextMain!).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => const RouteAuthFindPw(),
@@ -57,24 +58,23 @@ class RouteAuthFindIdDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'PW찾기',
+                    'Find Password',
                     style: TS.s14w600(colorGray600),
                   ),
                   Icon(
                     Icons.keyboard_arrow_right,
-                    color: colorGray600, // 아이콘 색상을 설정합니다 (원하는 색상으로 변경 가능)
+                    color: colorGray600,
                   ),
-
                 ],
               ),
             ),
             Gaps.v20,
 
             Text(
-              'SNS로 가입하신 계정은 비밀번호를 재설정할 수 없습니다.\n로그인 화면에서 SNS계정으로 로그인 하신 후 이용해주세요.',
+              'Accounts registered via social media cannot reset passwords.Please log in with your social account on the login screen.',
               style: TS.s13w500(colorPoint700),
-            )
-
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),

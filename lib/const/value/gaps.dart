@@ -16,11 +16,13 @@ class Gaps {
   static const v10 = SizedBox(height: Sizes.size10);
   static const v11 = SizedBox(height: Sizes.size11);
   static const v12 = SizedBox(height: Sizes.size12);
+  static const v13 = SizedBox(height: Sizes.size13);
   static const v14 = SizedBox(height: Sizes.size14);
   static const v15 = SizedBox(height: Sizes.size15);
   static const v16 = SizedBox(height: Sizes.size16);
   static const v19 = SizedBox(height: Sizes.size19);
   static const v20 = SizedBox(height: Sizes.size20);
+  static const v21 = SizedBox(height: Sizes.size21);
   static const v22 = SizedBox(height: Sizes.size22);
   static const v24 = SizedBox(height: Sizes.size24);
   static const v25 = SizedBox(height: Sizes.size25);
