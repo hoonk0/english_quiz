@@ -26,37 +26,21 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
   final TextEditingController tecPw = TextEditingController();
   final TextEditingController tecPwConfirm = TextEditingController();
 
-  final ValueNotifier<bool> vnEmailCheck = ValueNotifier(false);
-  final ValueNotifier<bool> vnEmailConfirmCheck = ValueNotifier(false);
   final ValueNotifier<bool> vnNickNameCheck = ValueNotifier(false);
   final ValueNotifier<bool> vnSignUpButtonEnabled = ValueNotifier(false);
 
   final ValueNotifier<bool> _obscurePwNotifier = ValueNotifier<bool>(true);
-  final ValueNotifier<bool> _obscurePwConfirmNotifier = ValueNotifier<bool>(
-      true);
+  final ValueNotifier<bool> _obscurePwConfirmNotifier = ValueNotifier<bool>(true);
+  final regExpEmail = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]{2,}$");
 
   bool isPasswordMatch = false;
 
   @override
   void initState() {
     super.initState();
-    tecEmail.addListener(_onEmailChanged);
-    tecEmailConfirm.addListener(_onEmailConfirmChanged);
     tecNickName.addListener(_onNickNameChanged);
     tecPw.addListener(_onPasswordChanged);
     tecPwConfirm.addListener(_onPasswordConfirmChanged);
-  }
-
-  void _onEmailChanged() {
-    final email = tecEmail.text;
-    vnEmailCheck.value = email.isNotEmpty;
-    _updateSignUpButtonState();
-  }
-
-  void _onEmailConfirmChanged() {
-    final emailConfirm = tecEmailConfirm.text;
-    vnEmailConfirmCheck.value = emailConfirm.isNotEmpty;
-    _updateSignUpButtonState();
   }
 
   void _onNickNameChanged() {
@@ -105,9 +89,10 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       /// Appbar
-                      const CustomAppbar(appTitle: 'Sign up',),
+                      const CustomAppbar(
+                        appTitle: 'Sign up',
+                      ),
 
                       Gaps.v36,
 
@@ -117,41 +102,41 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                         style: TS.s14w500(colorGray900),
                       ),
                       Gaps.v10,
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: TextFieldBorder(
-                              controller: tecEmail,
-                              hintText: 'Enter Email',
-                            ),
-                          ),
-                          Gaps.h8,
-                          Expanded(
-                            child: ValueListenableBuilder<bool>(
-                              valueListenable: vnEmailCheck,
-                              builder: (context, vnEmailCheck, child) {
-                                return PurpleButton(
-                                  title: vnEmailCheck ? 'Resend' : 'send',
-                                  colorBg: vnEmailCheck
-                                      ? colorPurple500
-                                      : colorPurple100,
-                                  onTap: vnEmailCheck
+                      ValueListenableBuilder(
+                        valueListenable: tecEmail,
+                        builder: (context, value, child) {
+                          final isEmailMatch = regExpEmail.hasMatch(tecEmail.text);
+                          debugPrint("리빌드");
+                          return Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: TextFieldBorder(
+                                  controller: tecEmail,
+                                  hintText: 'Enter Email',
+                                  errorText: (tecEmail.text.isEmpty || isEmailMatch) ? null : 'ddddd',
+                                ),
+                              ),
+                              Gaps.h8,
+                              Expanded(
+                                child: PurpleButton(
+                                  title: isEmailMatch ? 'Resend' : 'send',
+                                  colorBg: isEmailMatch ? colorPurple500 : colorPurple100,
+                                  onTap: isEmailMatch
                                       ? () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                      const DialogConfirm(
-                                        desc: 'Sent Successfully',
-                                      ),
-                                    );
-                                  }
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => const DialogConfirm(
+                                              desc: 'Sent Successfully',
+                                            ),
+                                          );
+                                        }
                                       : null,
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                       Gaps.v10,
                       Row(
@@ -165,24 +150,21 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                           ),
                           Gaps.h8,
                           Expanded(
-                            child: ValueListenableBuilder<bool>(
-                              valueListenable: vnEmailConfirmCheck,
+                            child: ValueListenableBuilder(
+                              valueListenable: tecEmailConfirm,
                               builder: (context, vnEmailConfirmCheck, child) {
                                 return PurpleButton(
                                   title: 'Confirm',
-                                  colorBg: vnEmailConfirmCheck
-                                      ? colorPurple500
-                                      : colorPurple100,
-                                  onTap: vnEmailConfirmCheck
+                                  colorBg: tecEmailConfirm.text.isNotEmpty ? colorPurple500 : colorPurple100,
+                                  onTap: tecEmailConfirm.text.isNotEmpty
                                       ? () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                      const DialogConfirm(
-                                        desc: 'Confirmed',
-                                      ),
-                                    );
-                                  }
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => const DialogConfirm(
+                                              desc: 'Confirmed',
+                                            ),
+                                          );
+                                        }
                                       : null,
                                 );
                               },
@@ -215,19 +197,16 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                               builder: (context, vnNickNameCheck, child) {
                                 return PurpleButton(
                                   title: 'Check',
-                                  colorBg: vnNickNameCheck
-                                      ? colorPurple500
-                                      : colorPurple100,
+                                  colorBg: vnNickNameCheck ? colorPurple500 : colorPurple100,
                                   onTap: vnNickNameCheck
                                       ? () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                      const DialogConfirm(
-                                        desc: 'Available',
-                                      ),
-                                    );
-                                  }
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => const DialogConfirm(
+                                              desc: 'Available',
+                                            ),
+                                          );
+                                        }
                                       : null,
                                 );
                               },
@@ -254,17 +233,14 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                                 controller: tecPw,
                                 obscureText: _obscurePw,
                                 // colorBorder: isPasswordOverSix || tecPw.text.isEmpty ? colorGray500 : colorRed,
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 17.0, horizontal: 16.0),
+                                contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
                                 hintText: 'Enter Password',
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    _obscurePw ? Icons.visibility_off : Icons
-                                        .visibility,
+                                    _obscurePw ? Icons.visibility_off : Icons.visibility,
                                   ),
                                   onPressed: () {
-                                    _obscurePwNotifier.value =
-                                    !_obscurePwNotifier.value;
+                                    _obscurePwNotifier.value = !_obscurePwNotifier.value;
                                   },
                                 ),
                               );
@@ -283,19 +259,15 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                                 controller: tecPwConfirm,
                                 obscureText: _obscurePwConfirm,
                                 // colorBorder: isPasswordOverSix || tecPw.text.isEmpty ? colorGray500 : colorRed,
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 17.0, horizontal: 16.0),
+                                contentPadding: EdgeInsets.symmetric(vertical: 17.0, horizontal: 16.0),
                                 hintText: 'Re-enter Password',
                                 errorText: _isPassConfirmValid(),
                                 suffixIcon: IconButton(
                                   icon: Icon(
-                                    _obscurePwConfirm
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
+                                    _obscurePwConfirm ? Icons.visibility_off : Icons.visibility,
                                   ),
                                   onPressed: () {
-                                    _obscurePwConfirmNotifier.value =
-                                    !_obscurePwConfirmNotifier.value;
+                                    _obscurePwConfirmNotifier.value = !_obscurePwConfirmNotifier.value;
                                   },
                                 ),
                               );
@@ -314,12 +286,8 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                 builder: (context, vnSignUpButtonEnabled, child) {
                   return GrayButton(
                     title: 'Done',
-                    titleColorBg: vnSignUpButtonEnabled
-                        ? colorWhite
-                        : colorGray500,
-                    colorBg: vnSignUpButtonEnabled
-                        ? colorPurple500
-                        : colorPoint800,
+                    titleColorBg: vnSignUpButtonEnabled ? colorWhite : colorGray500,
+                    colorBg: vnSignUpButtonEnabled ? colorPurple500 : colorPoint800,
                     onTap: vnSignUpButtonEnabled ? _signUp : null,
                   );
                 },
@@ -332,11 +300,9 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     );
   }
 
-
   /// 비밀번호 검사
   bool _isValidPassword() {
-    RegExp regex = RegExp(
-        r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#\$&*~])[A-Za-z\d!@#\$&*~]{8,15}$');
+    RegExp regex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#\$&*~])[A-Za-z\d!@#\$&*~]{8,15}$');
     return regex.hasMatch(tecPw.text);
   }
 
@@ -360,22 +326,19 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (tecEmail.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) =>
-        const DialogConfirm(
+        builder: (context) => const DialogConfirm(
           desc: 'Please enter your email.',
         ),
       );
       return;
     }
 
-    final regExp = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    final regExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
     if (!regExp.hasMatch(tecEmail.text)) {
       showDialog(
         context: context,
-        builder: (context) =>
-        const DialogConfirm(
+        builder: (context) => const DialogConfirm(
           desc: 'Invalid email format.',
         ),
       );
@@ -385,8 +348,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (tecEmailConfirm.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) =>
-        const DialogConfirm(
+        builder: (context) => const DialogConfirm(
           desc: 'Please enter the verification code.',
         ),
       );
@@ -396,8 +358,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (tecNickName.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) =>
-        const DialogConfirm(
+        builder: (context) => const DialogConfirm(
           desc: 'Please enter a nickname.',
         ),
       );
@@ -407,8 +368,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (tecPw.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) =>
-        const DialogConfirm(
+        builder: (context) => const DialogConfirm(
           desc: 'Please enter your password.',
         ),
       );
@@ -418,8 +378,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (!_isValidPassword()) {
       showDialog(
         context: context,
-        builder: (context) =>
-        const DialogConfirm(
+        builder: (context) => const DialogConfirm(
           desc: 'Invalid password.',
         ),
       );
@@ -429,8 +388,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (tecPwConfirm.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) =>
-        const DialogConfirm(
+        builder: (context) => const DialogConfirm(
           desc: 'Please confirm your password.',
         ),
       );
@@ -440,8 +398,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
     if (!isPasswordMatch) {
       showDialog(
         context: context,
-        builder: (context) =>
-        const DialogConfirm(
+        builder: (context) => const DialogConfirm(
           desc: 'Passwords do not match.',
         ),
       );
@@ -450,17 +407,16 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
 
     showDialog(
       context: context,
-      builder: (context) =>
-          DialogConfirm(
-            desc: 'Registration complete.',
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const RouteAuthSignUpWelcome(),
-                ),
-              );
-            },
-          ),
+      builder: (context) => DialogConfirm(
+        desc: 'Registration complete.',
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const RouteAuthSignUpWelcome(),
+            ),
+          );
+        },
+      ),
     );
   }
 }

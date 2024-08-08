@@ -65,13 +65,16 @@ class _BookSearchState extends State<BookSearch> {
                             _onTextChanged(); // Update notifier
                           }
                         },
-                        child: Image.asset(
-                          hasText
-                              ? 'assets/icons/delete.png' // Image for when there is text
-                              : 'assets/icons/search.png', // Image for when there is no text
-                          width: 24, // Adjust width as needed
-                          height: 24, // Adjust height as needed
-                          fit: BoxFit.cover,
+                        child: Transform.scale(
+                          scale: 0.5,
+                          child: Image.asset(
+                            hasText
+                                ? 'assets/icons/delete.png' // Image for when there is text
+                                : 'assets/icons/search.png', // Image for when there is no text
+                            width: 24, // Adjust width as needed
+                            height: 24, // Adjust height as needed
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     );
@@ -79,7 +82,7 @@ class _BookSearchState extends State<BookSearch> {
                 ),
                 Gaps.v20,
 
-                CustomImageContainerColumn(title: '호모 사피엔스', writer: 'joseph')
+                BookCard(title: '호모 사피엔스', writer: 'joseph')
               ],
             ),
           ),

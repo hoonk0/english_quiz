@@ -24,6 +24,7 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
   final ValueNotifier<bool> vnEmailCheck = ValueNotifier(false);
   final ValueNotifier<bool> vnEmailConfirmCheck = ValueNotifier(false);
   final ValueNotifier<bool> vnFindButtonEnabled = ValueNotifier(false);
+  final regExpEmail = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]{2,}$");
 
   bool isPasswordMatch = false;
 
@@ -47,9 +48,7 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
   }
 
   void _updateFindButtonState() {
-    vnFindButtonEnabled.value =
-        tecEmail.text.isNotEmpty &&
-            tecEmailConfirm.text.isNotEmpty;
+    vnFindButtonEnabled.value = tecEmail.text.isNotEmpty && tecEmailConfirm.text.isNotEmpty;
   }
 
   @override
@@ -88,9 +87,16 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
                         children: [
                           Expanded(
                             flex: 3,
-                            child: TextFieldBorder(
-                              controller: tecEmail,
-                              hintText: 'Enter Email',
+                            child: ValueListenableBuilder(
+                              valueListenable: tecEmail,
+                              builder: (context, value, child) {
+                                return TextFieldBorder(
+                                  controller: tecEmail,
+                                  hintText: 'Enter Email',
+                                  onChanged: (value) {},
+                                  errorText: regExpEmail.hasMatch(tecEmail.text) ? null : 'ddd',
+                                );
+                              },
                             ),
                           ),
                           Gaps.h8,
@@ -103,13 +109,13 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
                                   colorBg: vnEmailCheck ? colorPurple500 : colorPurple100,
                                   onTap: vnEmailCheck
                                       ? () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => const DialogConfirm(
-                                        desc: 'Sent Successfully.',
-                                      ),
-                                    );
-                                  }
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => const DialogConfirm(
+                                              desc: 'Sent Successfully.',
+                                            ),
+                                          );
+                                        }
                                       : null,
                                 );
                               },
@@ -137,13 +143,13 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
                                   colorBg: vnEmailConfirmCheck ? colorPurple500 : colorPurple100,
                                   onTap: vnEmailConfirmCheck
                                       ? () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => const DialogConfirm(
-                                        desc: 'Confirmed.',
-                                      ),
-                                    );
-                                  }
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) => const DialogConfirm(
+                                              desc: 'Confirmed.',
+                                            ),
+                                          );
+                                        }
                                       : null,
                                 );
                               },
@@ -166,7 +172,7 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
                     title: 'Find ID',
                     titleColorBg: vnFindButtonEnabled ? colorWhite : colorGray500,
                     colorBg: vnFindButtonEnabled ? colorPurple500 : colorPoint800,
-                    onTap: vnFindButtonEnabled ? _Find : null,
+                    onTap: vnFindButtonEnabled ? _find : null,
                   );
                 },
               ),
@@ -179,7 +185,7 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
   }
 
   /// Find ID
-  void _Find() {
+  void _find() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (tecEmail.text.isEmpty) {
@@ -214,7 +220,6 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
       return;
     }
 
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => const RouteAuthFindIdDetail()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteAuthFindIdDetail()));
   }
 }
