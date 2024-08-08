@@ -65,6 +65,8 @@ class _BookSearchState extends State<BookSearch> {
                             _onTextChanged(); // Update notifier
                           }
                         },
+
+                        ///Transform.scale 은 크기 무조건 변경 가능
                         child: Transform.scale(
                           scale: 0.5,
                           child: Image.asset(

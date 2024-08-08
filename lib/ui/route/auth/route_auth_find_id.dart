@@ -1,14 +1,17 @@
 import 'package:english_quiz/const/value/colors.dart';
 import 'package:english_quiz/ui/component/button/gray_button.dart';
 import 'package:english_quiz/ui/component/button/purple_button.dart';
-import 'package:english_quiz/ui/component/dialog/dialog_confirm.dart';
 import 'package:english_quiz/ui/component/textfield_border.dart';
 import 'package:english_quiz/ui/route/auth/detail/route_auth_find_id_detail.dart';
 import 'package:english_quiz/ui/route/auth/detail/route_auth_sign_up_welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../../const/value/gaps.dart';
 import '../../../const/value/text_style.dart';
 import '../../component/custom_appbar.dart';
+import '../../component/dialog/dialog_confirm.dart';
+import '../../component/dialog/dialog_deny.dart';
+import '../route_main.dart';
 
 class RouteAuthFindId extends StatefulWidget {
   const RouteAuthFindId({super.key});
@@ -21,42 +24,28 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
   final TextEditingController tecEmail = TextEditingController();
   final TextEditingController tecEmailConfirm = TextEditingController();
 
-  final ValueNotifier<bool> vnEmailCheck = ValueNotifier(false);
-  final ValueNotifier<bool> vnEmailConfirmCheck = ValueNotifier(false);
-  final ValueNotifier<bool> vnFindButtonEnabled = ValueNotifier(false);
-  final regExpEmail = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]{2,}$");
-
-  bool isPasswordMatch = false;
+  final ValueNotifier<bool> vnSignUpButtonEnabled = ValueNotifier(false);
+  final RegExp regExpEmail = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]{2,}$");
 
   @override
   void initState() {
     super.initState();
-    tecEmail.addListener(_onEmailChanged);
-    tecEmailConfirm.addListener(_onEmailConfirmChanged);
-  }
-
-  void _onEmailChanged() {
-    final email = tecEmail.text;
-    vnEmailCheck.value = email.isNotEmpty;
-    _updateFindButtonState();
-  }
-
-  void _onEmailConfirmChanged() {
-    final emailConfirm = tecEmailConfirm.text;
-    vnEmailConfirmCheck.value = emailConfirm.isNotEmpty;
-    _updateFindButtonState();
-  }
-
-  void _updateFindButtonState() {
-    vnFindButtonEnabled.value = tecEmail.text.isNotEmpty && tecEmailConfirm.text.isNotEmpty;
+    tecEmail.addListener(_updateSignUpButtonState);
+    tecEmailConfirm.addListener(_updateSignUpButtonState);
   }
 
   @override
   void dispose() {
     tecEmail.dispose();
     tecEmailConfirm.dispose();
-
     super.dispose();
+  }
+
+  void _updateSignUpButtonState() {
+    vnSignUpButtonEnabled.value =
+        tecEmail.text.isNotEmpty &&
+            regExpEmail.hasMatch(tecEmail.text) &&
+            tecEmailConfirm.text.isNotEmpty;
   }
 
   @override
@@ -72,56 +61,46 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      /// Appbar
+                      // Appbar
                       const CustomAppbar(appTitle: 'Find ID'),
 
                       Gaps.v36,
 
-                      /// Email
-                      Text(
-                        'Email',
-                        style: TS.s14w500(colorGray900),
-                      ),
+                      // 이메일
+                      Text('Email', style: TS.s14w500(colorGray900)),
                       Gaps.v10,
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 3,
-                            child: ValueListenableBuilder(
-                              valueListenable: tecEmail,
-                              builder: (context, value, child) {
-                                return TextFieldBorder(
+                      ValueListenableBuilder(
+                        valueListenable: tecEmail,
+                        builder: (context, value, child) {
+                          final isEmailMatch = regExpEmail.hasMatch(tecEmail.text);
+                          return Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: TextFieldBorder(
                                   controller: tecEmail,
                                   hintText: 'Enter Email',
-                                  onChanged: (value) {},
-                                  errorText: regExpEmail.hasMatch(tecEmail.text) ? null : 'ddd',
-                                );
-                              },
-                            ),
-                          ),
-                          Gaps.h8,
-                          Expanded(
-                            child: ValueListenableBuilder<bool>(
-                              valueListenable: vnEmailCheck,
-                              builder: (context, vnEmailCheck, child) {
-                                return PurpleButton(
-                                  title: vnEmailCheck ? 'Resend' : 'Send',
-                                  colorBg: vnEmailCheck ? colorPurple500 : colorPurple100,
-                                  onTap: vnEmailCheck
+                                  errorText: (tecEmail.text.isEmpty || isEmailMatch) ? null : 'Invalid Email format',
+                                ),
+                              ),
+                              Gaps.h8,
+                              Expanded(
+                                child: PurpleButton(
+                                  title: isEmailMatch ? 'Resend' : 'Send',
+                                  colorBg: isEmailMatch ? colorPurple500 : colorPurple100,
+                                  onTap: isEmailMatch
                                       ? () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => const DialogConfirm(
-                                              desc: 'Sent Successfully.',
-                                            ),
-                                          );
-                                        }
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => const DialogConfirm(desc: 'Sent successfully'),
+                                    );
+                                  }
                                       : null,
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                       Gaps.v10,
                       Row(
@@ -130,26 +109,24 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
                             flex: 3,
                             child: TextFieldBorder(
                               controller: tecEmailConfirm,
-                              hintText: 'Enter Code',
+                              hintText: 'Enter Verification Code',
                             ),
                           ),
                           Gaps.h8,
                           Expanded(
-                            child: ValueListenableBuilder<bool>(
-                              valueListenable: vnEmailConfirmCheck,
-                              builder: (context, vnEmailConfirmCheck, child) {
+                            child: ValueListenableBuilder(
+                              valueListenable: tecEmailConfirm,
+                              builder: (context, tecEmailConfirm, child) {
                                 return PurpleButton(
                                   title: 'Confirm',
-                                  colorBg: vnEmailConfirmCheck ? colorPurple500 : colorPurple100,
-                                  onTap: vnEmailConfirmCheck
+                                  colorBg: tecEmailConfirm.text.isNotEmpty ? colorPurple500 : colorPurple100,
+                                  onTap: tecEmailConfirm.text.isNotEmpty
                                       ? () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => const DialogConfirm(
-                                              desc: 'Confirmed.',
-                                            ),
-                                          );
-                                        }
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => const DialogConfirm(desc: 'Confirmed'),
+                                    );
+                                  }
                                       : null,
                                 );
                               },
@@ -157,22 +134,19 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
                           ),
                         ],
                       ),
-
                       Gaps.v20,
-
-                      Gaps.v10,
                     ],
                   ),
                 ),
               ),
               ValueListenableBuilder<bool>(
-                valueListenable: vnFindButtonEnabled,
-                builder: (context, vnFindButtonEnabled, child) {
+                valueListenable: vnSignUpButtonEnabled,
+                builder: (context, vnSignUpButtonEnabled, child) {
                   return GrayButton(
                     title: 'Find ID',
-                    titleColorBg: vnFindButtonEnabled ? colorWhite : colorGray500,
-                    colorBg: vnFindButtonEnabled ? colorPurple500 : colorPoint800,
-                    onTap: vnFindButtonEnabled ? _find : null,
+                    titleColorBg: vnSignUpButtonEnabled ? colorWhite : colorGray500,
+                    colorBg: vnSignUpButtonEnabled ? colorPurple500 : colorPoint800,
+                    onTap: vnSignUpButtonEnabled ? _signUp : null,
                   );
                 },
               ),
@@ -184,28 +158,21 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
     );
   }
 
-  /// Find ID
-  void _find() {
+  void _signUp() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (tecEmail.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: 'Please enter your email.',
-        ),
+        builder: (context) => const DialogConfirm(desc: 'Please enter your email.'),
       );
       return;
     }
 
-    final regExp = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-
-    if (!regExp.hasMatch(tecEmail.text)) {
+    if (!regExpEmail.hasMatch(tecEmail.text)) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: 'Invalid email format.',
-        ),
+        builder: (context) => const DialogConfirm(desc: 'Invalid email format.'),
       );
       return;
     }
@@ -213,13 +180,17 @@ class _RouteAuthFindIdState extends State<RouteAuthFindId> {
     if (tecEmailConfirm.text.isEmpty) {
       showDialog(
         context: context,
-        builder: (context) => const DialogConfirm(
-          desc: 'Please enter the code.',
-        ),
+        builder: (context) => const DialogConfirm(desc: 'Please enter the verification code.'),
       );
       return;
     }
 
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RouteAuthFindIdDetail()));
+    // 조건이 모두 맞으면 다이얼로그를 보여주지 않고 바로 이동
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const RouteAuthFindIdDetail(),
+      ),
+    );
   }
+
 }

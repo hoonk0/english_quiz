@@ -22,7 +22,7 @@ class DialogBlack extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: Text(
-                  '비밀번호가 변경되었습니다.',
+                  'Your password has been changed',
                   style: TS.s14w500(colorWhite),
                   textAlign: TextAlign.center,
                 ),

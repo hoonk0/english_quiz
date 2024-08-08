@@ -26,9 +26,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
   final TextEditingController tecPw = TextEditingController();
   final TextEditingController tecPwConfirm = TextEditingController();
 
-  final ValueNotifier<bool> vnNickNameCheck = ValueNotifier(false);
   final ValueNotifier<bool> vnSignUpButtonEnabled = ValueNotifier(false);
-
   final ValueNotifier<bool> _obscurePwNotifier = ValueNotifier<bool>(true);
   final ValueNotifier<bool> _obscurePwConfirmNotifier = ValueNotifier<bool>(true);
   final regExpEmail = RegExp(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]{2,}$");
@@ -38,31 +36,6 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
   @override
   void initState() {
     super.initState();
-    tecNickName.addListener(_onNickNameChanged);
-    tecPw.addListener(_onPasswordChanged);
-    tecPwConfirm.addListener(_onPasswordConfirmChanged);
-  }
-
-  void _onNickNameChanged() {
-    final nickName = tecNickName.text;
-    vnNickNameCheck.value = nickName.isNotEmpty;
-    _updateSignUpButtonState();
-  }
-
-  void _onPasswordChanged() {
-    _updateSignUpButtonState();
-  }
-
-  void _onPasswordConfirmChanged() {
-    _updateSignUpButtonState();
-  }
-
-  void _updateSignUpButtonState() {
-    vnSignUpButtonEnabled.value = tecNickName.text.isNotEmpty &&
-        tecEmail.text.isNotEmpty &&
-        tecEmailConfirm.text.isNotEmpty &&
-        tecPw.text.isNotEmpty &&
-        tecPwConfirm.text.isNotEmpty;
   }
 
   @override
@@ -114,7 +87,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                                 child: TextFieldBorder(
                                   controller: tecEmail,
                                   hintText: 'Enter Email',
-                                  errorText: (tecEmail.text.isEmpty || isEmailMatch) ? null : 'ddddd',
+                                  errorText: (tecEmail.text.isEmpty || isEmailMatch) ? null : 'Invalid Email format',
                                 ),
                               ),
                               Gaps.h8,
@@ -127,7 +100,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                                           showDialog(
                                             context: context,
                                             builder: (context) => const DialogConfirm(
-                                              desc: 'Sent Successfully',
+                                              desc: 'Sent successfully',
                                             ),
                                           );
                                         }
@@ -152,7 +125,7 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                           Expanded(
                             child: ValueListenableBuilder(
                               valueListenable: tecEmailConfirm,
-                              builder: (context, vnEmailConfirmCheck, child) {
+                              builder: (context, tecEmailConfirm, child) {
                                 return PurpleButton(
                                   title: 'Confirm',
                                   colorBg: tecEmailConfirm.text.isNotEmpty ? colorPurple500 : colorPurple100,
@@ -192,13 +165,13 @@ class _RouteAuthSignUpState extends State<RouteAuthSignUp> {
                           ),
                           Gaps.h8,
                           Expanded(
-                            child: ValueListenableBuilder<bool>(
-                              valueListenable: vnNickNameCheck,
-                              builder: (context, vnNickNameCheck, child) {
+                            child: ValueListenableBuilder(
+                              valueListenable: tecNickName,
+                              builder: (context, tecNickName, child) {
                                 return PurpleButton(
                                   title: 'Check',
-                                  colorBg: vnNickNameCheck ? colorPurple500 : colorPurple100,
-                                  onTap: vnNickNameCheck
+                                  colorBg: tecNickName.text.isNotEmpty ? colorPurple500 : colorPurple100,
+                                  onTap: tecNickName.text.isNotEmpty
                                       ? () {
                                           showDialog(
                                             context: context,

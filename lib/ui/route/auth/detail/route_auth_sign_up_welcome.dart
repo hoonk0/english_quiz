@@ -6,6 +6,7 @@ import '../../../../const/value/colors.dart';
 import '../../../../const/value/gaps.dart';
 import '../../../../const/value/text_style.dart';
 import '../../route_main.dart';
+import '../../route_splash.dart';
 
 class RouteAuthSignUpWelcome extends StatelessWidget {
   const RouteAuthSignUpWelcome({super.key});
@@ -39,10 +40,11 @@ class RouteAuthSignUpWelcome extends StatelessWidget {
                 title: 'Start',
                 colorBg: colorPurple500,
                 onTap: () {
-                  Navigator.of(context).push(
+                  Navigator.of(contextMain!).pushAndRemoveUntil(
                     MaterialPageRoute(
-                      builder: (context) => const RouteMain(),
+                      builder: (context) => const RouteMain()
                     ),
+                        (route) => false,
                   );
                 }),
           ),
