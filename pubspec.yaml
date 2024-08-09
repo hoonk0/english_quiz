@@ -70,6 +70,9 @@ flutter:
     - assets/icons/search.png
     - assets/icons/downarrow.png
     - assets/icons/rightarrow.png
+    - assets/icons/leftarrow.png
+    - assets/icons/singlepage.png
+    - assets/icons/multipage.png
     - assets/icons/delete.png
     - assets/images/splash.png
     - assets/images/apple.png

@@ -30,11 +30,11 @@ class CustomAppbar extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
                 child: Image.asset(
-                  'assets/icons/rightarrow.png',
+                  'assets/icons/leftarrow.png',
                   width: 24, // 이미지 너비
                   height: 24, // 이미지 높이
                   fit: BoxFit.cover,
-                  color: colorBlack, // 이미지 색상
+
                 ),
               ),
             ),

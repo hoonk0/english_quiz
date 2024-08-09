@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../const/value/gaps.dart';
 import '../../const/value/text_style.dart';
+import '../../ui/component/book_card_column.dart';
 
 class TabBookIntroduction extends StatefulWidget {
   @override
@@ -99,7 +100,22 @@ class _TabBookIntroductionState extends State<TabBookIntroduction> {
           Gaps.v10,
 
           /// 책 리스트
-
+          Expanded(
+            child: ListView.builder(
+              itemCount: 10, // BookCard 개수
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    BookCardColumn(
+                      title: '책 제목 $index', // 각각의 카드에 번호를 부여
+                      writer: '저자 이름 $index',
+                    ),
+                    Gaps.v10, // 카드들 사이에 간격 추가
+                  ],
+                );
+              },
+            ),
+          ),
 
 
         ],
